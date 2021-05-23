@@ -2,7 +2,7 @@
 
 require "jekyll"
 require "jekyll-postcss/version"
-require "jekyll/converters/postcss"
+require "jekyll-postcss/postcss"
 
 module Jekyll
   module PostCss

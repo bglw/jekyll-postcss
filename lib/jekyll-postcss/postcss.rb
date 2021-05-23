@@ -1,13 +1,11 @@
-# frozen_string_literal: true
-
 require "socket"
 require "json"
 
 module PostCss
   class Socket
     class PostCssRuntimeError; end
-    START_SCRIPT = File.expand_path("../../bin/command", __dir__)
-    POSTCSS_SCRIPT = File.expand_path("../../bin/postcss", __dir__)
+    START_SCRIPT = File.expand_path("../../../bin/command", __dir__)
+    POSTCSS_SCRIPT = File.expand_path("../../../bin/postcss", __dir__)
 
     def initialize
       start_dev_server if development?
@@ -63,5 +61,27 @@ module PostCss
         end
       end
     end
+  end
+end
+
+
+module Core
+  class PostCss
+    def initialize(config = {})
+      @socket = ::PostCss::Socket.new
+    end
+
+    def huzzah(content)
+      @socket.write content
+      @socket.read
+    end
+  end
+end
+
+core = Core::PostCss.new
+
+Jekyll::Hooks.register :pages, :post_render do |page|
+  if page.relative_path.end_with?('.scss')
+    page.output = core.huzzah(page.output)
   end
 end
