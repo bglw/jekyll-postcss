@@ -4,8 +4,8 @@ require "json"
 module PostCss
   class Socket
     class PostCssRuntimeError; end
-    START_SCRIPT = File.expand_path("../../../bin/command", __dir__)
-    POSTCSS_SCRIPT = File.expand_path("../../../bin/postcss", __dir__)
+    START_SCRIPT = File.expand_path("../../bin/command", __dir__)
+    POSTCSS_SCRIPT = File.expand_path("../../bin/postcss", __dir__)
 
     def initialize
       start_dev_server if development?
