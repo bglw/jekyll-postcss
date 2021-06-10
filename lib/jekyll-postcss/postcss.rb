@@ -34,7 +34,7 @@ module PostCss
     private
 
     def encode(data)
-      JSON.dump(:raw_content => data)
+      "POSTCSS-START#{JSON.dump(:raw_content => data)}POSTCSS-END"
     end
 
     def decode(data)

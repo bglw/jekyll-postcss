@@ -17,12 +17,18 @@ class PostCSS {
 
   static startServer() {
     const server = net.createServer((c) => {
+      let currentData = [];
       c.on("data", (data) => {
-        this.process(data, function (result) {
-          const packet = { compiled_css: result.toString() };
-
-          c.write(`${JSON.stringify(packet)}\n`);
-        });
+        data = data.toString();
+        currentData.push(data.replace(/\s*POSTCSS-(START|END)\s*/g, ''));
+        if (/POSTCSS-END\s*$/.test(data)) {
+          this.process(currentData.join(''), function (result) {
+            const packet = { compiled_css: result.toString() };
+  
+            c.write(`${JSON.stringify(packet)}\n`);
+          });
+          currentData = [];
+        }
       });
     });
 
