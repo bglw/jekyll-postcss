@@ -46,10 +46,9 @@ module PostCss
     end
 
     def development?
-      # @env ||= Jekyll.env
+      @env ||= Jekyll.env
 
-      # @env == "development"
-      true
+      @env == "development"
     end
 
     def start_dev_server
